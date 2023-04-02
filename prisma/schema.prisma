@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Story {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  novel     Novel?
+  comic     Comic?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([id, name])
+}
+
+model Novel {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  story     Story          @relation(fields: [storyId, storyName], references: [id, name], onUpdate: Cascade, onDelete: Cascade)
+  storyId   String         @unique @db.ObjectId
+  storyName String         @unique
+  chapters  NovelChapter[]
+  views     Int
+  complete  Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([storyId, storyName])
+  @@unique([id, storyName])
+}
+
+model Comic {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  story     Story          @relation(fields: [storyId, storyName], references: [id, name], onUpdate: Cascade, onDelete: Cascade)
+  storyId   String         @unique @db.ObjectId
+  storyName String         @unique
+  chapters  ComicChapter[]
+  views     Int
+  complete  Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([storyId, storyName])
+  @@unique([id, storyName])
+}
+
+model ComicChapter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  comic     Comic    @relation(fields: [comicId, storyName], references: [id, storyName], onUpdate: Cascade, onDelete: Cascade)
+  comicId   String   @db.ObjectId
+  storyName String
+  title     String
+  images    String[]
+  chapter   Int
+  views     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NovelChapter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  novel     Novel    @relation(fields: [novelId, storyName], references: [id, storyName], onUpdate: Cascade, onDelete: Cascade)
+  novelId   String   @db.ObjectId
+  storyName String
+  title     String
+  context   String
+  chapter   Int
+  views     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
