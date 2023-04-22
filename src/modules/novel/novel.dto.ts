@@ -19,7 +19,7 @@ export class NovelDTO {
   @Length(5, 100)
   storyName: string;
 
-  @ApiProperty({ required: false, type: [NovelChapterDTO] })
+  @ApiProperty({ required: false, type: [NovelChapterDTO], isArray: true })
   chapters?: NovelChapterDTO[];
 
   @ApiProperty({ required: true, type: Number })

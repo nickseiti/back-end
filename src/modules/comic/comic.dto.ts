@@ -18,7 +18,7 @@ export class ComicDTO {
   @ApiProperty({ required: true, type: String })
   storyName: string;
 
-  @ApiProperty({ required: false, type: [ComicChapterDTO] })
+  @ApiProperty({ required: false, type: [ComicChapterDTO], isArray: true })
   chapters?: ComicChapterDTO[];
 
   @ApiProperty({ required: true, type: Number })
