@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ComicService } from './comic.service';
+import { PrismaService } from 'src/database/prisma.service';
+import { ComicController } from './comic.controller';
 
 @Module({
-  controllers: [],
-  providers: [ComicService],
+  controllers: [ComicController],
+  providers: [ComicService, PrismaService],
 })
 export class ComicModule {}
