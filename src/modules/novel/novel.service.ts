@@ -36,7 +36,7 @@ export class NovelService {
   }
 
   async delete(id: string) {
-    const novel = await this.prisma.story.delete({
+    const novel = await this.prisma.novel.delete({
       where: { id },
     });
 
