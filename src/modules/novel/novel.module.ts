@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { NovelService } from './novel.service';
+import { PrismaService } from 'src/database/prisma.service';
+import { NovelController } from './novel.controller';
 
 @Module({
-  controllers: [],
-  providers: [NovelService],
+  controllers: [NovelController],
+  providers: [NovelService, PrismaService],
 })
 export class NovelModule {}
