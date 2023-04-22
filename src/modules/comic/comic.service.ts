@@ -17,11 +17,14 @@ export class ComicService {
   }
 
   async findAll() {
-    return this.prisma.comic.findMany();
+    return this.prisma.comic.findMany({ include: { chapters: true } });
   }
 
   async findById(data: string) {
-    const comic = await this.prisma.comic.findUnique({ where: { id: data } });
+    const comic = await this.prisma.comic.findUnique({
+      where: { id: data },
+      include: { chapters: true },
+    });
 
     return comic;
   }

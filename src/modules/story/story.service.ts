@@ -17,11 +17,22 @@ export class StoryService {
   }
 
   async findAll() {
-    return this.prisma.story.findMany();
+    return this.prisma.story.findMany({
+      include: {
+        novel: { include: { chapters: true } },
+        comic: { include: { chapters: true } },
+      },
+    });
   }
 
   async findById(data: string) {
-    const story = await this.prisma.story.findUnique({ where: { id: data } });
+    const story = await this.prisma.story.findUnique({
+      where: { id: data },
+      include: {
+        novel: { include: { chapters: true } },
+        comic: { include: { chapters: true } },
+      },
+    });
 
     return story;
   }
