@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma.service';
-import { ComicMapper } from 'src/mappers/comic.mapper';
+import { PrismaService } from 'src/shared/database/prisma.service';
+import { ComicMapper } from 'src/common/mappers/comic.mapper';
 import { ComicDTO } from './comic.dto';
 
 @Injectable()

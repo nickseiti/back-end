@@ -1,5 +1,5 @@
 import { Story } from '@prisma/client';
-import { StoryDTO } from 'src/modules/story/story.dto';
+import { StoryDTO } from '../../modules/story/story.dto';
 
 export class StoryMapper {
   static dtoToEntity(dto: StoryDTO): Story {

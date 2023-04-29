@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NovelChapterDTO } from './novel.chapter.dto';
-import { PrismaService } from 'src/database/prisma.service';
-import { NovelChapterMapper } from 'src/mappers/novel.chapter.mapper';
+import { PrismaService } from 'src/shared/database/prisma.service';
+import { NovelChapterMapper } from 'src/common/mappers/novel.chapter.mapper';
 
 @Injectable()
 export class NovelChapterService {

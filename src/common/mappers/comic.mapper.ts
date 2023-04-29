@@ -1,5 +1,5 @@
-import { ComicDTO } from 'src/modules/comic/comic.dto';
 import { Comic } from '@prisma/client';
+import { ComicDTO } from 'src/modules/comic/comic.dto';
 
 export class ComicMapper {
   static dtoToEntity(dto: ComicDTO): Comic {

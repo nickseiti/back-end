@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { NovelChapterDTO } from '../novel_chapter/novel.chapter.dto';
 import { IsNotEmpty, Length } from 'class-validator';
+import { NovelChapterDTO } from '../novel_chapter/novel.chapter.dto';
 
 export class NovelDTO {
   @ApiProperty({ required: false, type: String })
@@ -25,7 +25,7 @@ export class NovelDTO {
   @ApiProperty({ required: true, type: Number })
   views: number;
 
-  @ApiProperty({ required: false, type: Boolean, default: false })
+  @ApiProperty({ required: true, type: Boolean, default: false })
   complete: boolean;
 
   @ApiProperty({ required: false, type: Date })
