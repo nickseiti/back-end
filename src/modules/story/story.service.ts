@@ -9,25 +9,28 @@ import {
 } from 'src/common/mappers/index';
 import { isEmpty } from 'class-validator';
 import { StoryDTO } from 'src/modules/story/story.dto';
+import {
+  Comic,
+  ComicChapter,
+  Novel,
+  NovelChapter,
+  Story,
+} from '@prisma/client';
 
 @Injectable()
-//Crie um test case para os cenários de crud abaixo
 export class StoryService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: StoryDTO) {
-    const storyEntity = StoryMapper.dtoToEntity(data);
-    const novelEntity = NovelMapper.dtoToEntity(data.novel);
-    const comicEntity = ComicMapper.dtoToEntity(data.comic);
-    const novelChaptersEntity = NovelChapterMapper.dtoListToEntity(
-      data.novel.chapters,
-    );
-    const comicChaptersEntity = ComicChapterMapper.dtoListToEntity(
-      data.comic.chapters,
-    );
+  async create(data: StoryDTO): Promise<StoryDTO | null> {
+    const storyEntity: Story = StoryMapper.dtoToEntity(data);
+    const novelEntity: Novel = NovelMapper.dtoToEntity(data.novel);
+    const comicEntity: Comic = ComicMapper.dtoToEntity(data.comic);
+    const novelChaptersEntity: NovelChapter[] =
+      NovelChapterMapper.dtoListToEntity(data.novel.chapters);
+    const comicChaptersEntity: ComicChapter[] =
+      ComicChapterMapper.dtoListToEntity(data.comic.chapters);
 
-    //need test if could create a story when already exists a story with the same name or id
-    const story = await this.prisma.story.create({
+    const story: StoryDTO = await this.prisma.story.create({
       data: storyEntity,
       include: {
         novel: { include: { chapters: true } },
@@ -72,7 +75,7 @@ export class StoryService {
     return story;
   }
 
-  async findAll() {
+  async findAll(): Promise<StoryDTO[] | null> {
     return this.prisma.story.findMany({
       include: {
         novel: { include: { chapters: true } },
@@ -81,8 +84,8 @@ export class StoryService {
     });
   }
 
-  async findById(data: string) {
-    const story = await this.prisma.story.findUnique({
+  async findById(data: string): Promise<StoryDTO | null> {
+    const story: StoryDTO = await this.prisma.story.findUnique({
       where: { id: data },
       include: {
         novel: { include: { chapters: true } },
@@ -93,18 +96,18 @@ export class StoryService {
     return story;
   }
 
-  async update(id: string, data: StoryDTO) {
-    const storyEntity = StoryMapper.dtoToEntity(data);
+  async update(id: string, data: StoryDTO): Promise<StoryDTO | null> {
+    const storyEntity: Story = StoryMapper.dtoToEntity(data);
 
-    const story = await this.prisma.story.update({
+    const story: StoryDTO = await this.prisma.story.update({
       data: storyEntity,
       where: { id },
     });
     return story;
   }
 
-  async delete(id: string) {
-    const story = await this.prisma.story.delete({
+  async delete(id: string): Promise<StoryDTO | null> {
+    const story: StoryDTO = await this.prisma.story.delete({
       where: { id },
     });
 

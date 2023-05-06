@@ -17,27 +17,30 @@ export class StoryController {
   constructor(private readonly storyService: StoryService) {}
 
   @Post()
-  async create(@Body() data: StoryDTO) {
+  async create(@Body() data: StoryDTO): Promise<StoryDTO> {
     return this.storyService.create(data);
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<StoryDTO[]> {
     return this.storyService.findAll();
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string) {
+  async findById(@Param('id') id: string): Promise<StoryDTO> {
     return this.storyService.findById(id);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() data: StoryDTO) {
+  async update(
+    @Param('id') id: string,
+    @Body() data: StoryDTO,
+  ): Promise<StoryDTO> {
     return this.storyService.update(id, data);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<StoryDTO> {
     return this.storyService.delete(id);
   }
 }
