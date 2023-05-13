@@ -1,10 +1,10 @@
-import { NovelChapter } from '@prisma/client';
+import { NovelChapter } from 'src/modules/novel_chapter/novel.chapter.model';
 import { NovelChapterDTO } from 'src/modules/novel_chapter/novel.chapter.dto';
 
 export class NovelChapterMapper {
   static dtoToEntity(dto: NovelChapterDTO): NovelChapter {
     return {
-      id: dto.id,
+      _id: dto.id,
       chapter: dto.chapter,
       context: dto.context,
       novelId: dto.novelId,
@@ -17,10 +17,32 @@ export class NovelChapterMapper {
   }
 
   static dtoListToEntity(dto: NovelChapterDTO[]): NovelChapter[] {
-    let novelChapters: NovelChapter[];
+    const novelChapters: NovelChapter[] = [];
     dto.forEach((chapter) => {
       novelChapters.push(NovelChapterMapper.dtoToEntity(chapter));
     });
     return novelChapters;
+  }
+
+  static entityToDTO(entity: NovelChapter): NovelChapterDTO {
+    return {
+      id: entity._id,
+      chapter: entity.chapter,
+      context: entity.context,
+      novelId: entity.novelId,
+      title: entity.title,
+      views: entity.views,
+      storyName: entity.storyName,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    };
+  }
+
+  static entityListToDTO(entity: NovelChapter[]): NovelChapterDTO[] {
+    const dtos: NovelChapterDTO[] = [];
+    entity.forEach((story) => {
+      dtos.push(NovelChapterMapper.entityToDTO(story));
+    });
+    return dtos;
   }
 }

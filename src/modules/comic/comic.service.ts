@@ -1,48 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { ComicMapper } from 'src/common/mappers/comic.mapper';
 import { ComicDTO } from './comic.dto';
+import { ComicRepository } from './comic.repository';
+import { ComicMapper } from 'src/common/mappers';
 
 @Injectable()
 export class ComicService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly comicRepository: ComicRepository) {}
 
-  async create(data: ComicDTO) {
-    const comicEntity = ComicMapper.dtoToEntity(data);
-    const comic = await this.prisma.comic.create({
-      data: comicEntity,
-    });
-
-    return comic;
+  async create(data: ComicDTO): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.create(data));
   }
 
-  async findAll() {
-    return this.prisma.comic.findMany({ include: { chapters: true } });
+  async findAll(): Promise<ComicDTO[] | null> {
+    return ComicMapper.entityListToDTO(await this.comicRepository.findAll());
   }
 
-  async findById(data: string) {
-    const comic = await this.prisma.comic.findUnique({
-      where: { id: data },
-      include: { chapters: true },
-    });
-
-    return comic;
+  async findById(data: string): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.findById(data));
   }
 
-  async update(id: string, data: ComicDTO) {
-    const comicEntity = ComicMapper.dtoToEntity(data);
-    const comic = await this.prisma.comic.update({
-      data: comicEntity,
-      where: { id },
-    });
-    return comic;
+  async update(id: string, data: ComicDTO): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.update(id, data));
   }
 
-  async delete(id: string) {
-    const comic = await this.prisma.comic.delete({
-      where: { id },
-    });
-
-    return comic;
+  async delete(id: string): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.delete(id));
   }
 }

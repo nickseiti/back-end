@@ -1,47 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { NovelChapterDTO } from './novel.chapter.dto';
-import { PrismaService } from 'src/shared/database/prisma.service';
-import { NovelChapterMapper } from 'src/common/mappers/novel.chapter.mapper';
+import { NovelChapterRepository } from './novel.chapter.repository';
+import { NovelChapter } from './novel.chapter.model';
+import { NovelChapterMapper } from 'src/common/mappers';
 
 @Injectable()
 export class NovelChapterService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private readonly novelChapterRepository: NovelChapterRepository,
+  ) {}
 
-  async create(data: NovelChapterDTO) {
-    const novelChapterEntity = NovelChapterMapper.dtoToEntity(data);
-    const novelChapter = await this.prisma.novelChapter.create({
-      data: novelChapterEntity,
-    });
-
-    return novelChapter;
+  async create(data: NovelChapterDTO): Promise<NovelChapter | null> {
+    return NovelChapterMapper.entityToDTO(
+      await this.novelChapterRepository.create(data),
+    );
   }
 
-  async findAll() {
-    return this.prisma.novel.findMany();
+  async findAll(): Promise<NovelChapter[] | null> {
+    return NovelChapterMapper.entityListToDTO(
+      await this.novelChapterRepository.findAll(),
+    );
   }
 
-  async findById(data: string) {
-    const novelChapter = await this.prisma.novelChapter.findUnique({
-      where: { id: data },
-    });
-
-    return novelChapter;
+  async findById(data: string): Promise<NovelChapter | null> {
+    return NovelChapterMapper.entityToDTO(
+      await this.novelChapterRepository.findById(data),
+    );
   }
 
-  async update(id: string, data: NovelChapterDTO) {
-    const novelChapterEntity = NovelChapterMapper.dtoToEntity(data);
-    const novelChapter = await this.prisma.novelChapter.update({
-      data: novelChapterEntity,
-      where: { id },
-    });
-    return novelChapter;
+  async update(
+    id: string,
+    data: NovelChapterDTO,
+  ): Promise<NovelChapter | null> {
+    return NovelChapterMapper.entityToDTO(
+      await this.novelChapterRepository.update(id, data),
+    );
   }
 
-  async delete(id: string) {
-    const novelChapter = await this.prisma.novelChapter.delete({
-      where: { id },
-    });
-
-    return novelChapter;
+  async delete(id: string): Promise<NovelChapter | null> {
+    return NovelChapterMapper.entityToDTO(
+      await this.novelChapterRepository.delete(id),
+    );
   }
 }

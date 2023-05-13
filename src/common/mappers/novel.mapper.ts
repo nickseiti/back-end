@@ -1,10 +1,10 @@
 import { NovelDTO } from 'src/modules/novel/novel.dto';
-import { Novel } from '@prisma/client';
+import { Novel } from 'src/modules/novel/novel.model';
 
 export class NovelMapper {
   static dtoToEntity(dto: NovelDTO): Novel {
     return {
-      id: dto.id,
+      _id: dto.id,
       complete: dto.complete,
       storyId: dto.storyId,
       views: dto.views,
@@ -12,5 +12,33 @@ export class NovelMapper {
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
     };
+  }
+
+  static dtoListToEntity(dto: NovelDTO[]): Novel[] {
+    const novels: Novel[] = [];
+    dto.forEach((novel) => {
+      novels.push(NovelMapper.dtoToEntity(novel));
+    });
+    return novels;
+  }
+
+  static entityToDTO(entity: Novel): NovelDTO {
+    return {
+      id: entity._id,
+      complete: entity.complete,
+      storyId: entity.storyId,
+      views: entity.views,
+      storyName: entity.storyName,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    };
+  }
+
+  static entityListToDTO(entity: Novel[]): NovelDTO[] {
+    const dtos: NovelDTO[] = [];
+    entity.forEach((story) => {
+      dtos.push(NovelMapper.entityToDTO(story));
+    });
+    return dtos;
   }
 }

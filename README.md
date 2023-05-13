@@ -11,18 +11,7 @@ $ npm install
 ```
 
 # Database
-To generate typescript module from your schema.prisma run the following command (remember to get permission to connect into your database)
-```bash 
-$ npx prisma generate
-```
-Then i run the following command to update the database with the latest collections versions
-```bash 
-$ npx prisma db push
-```
-If you want catch the collections from database use the following command
-```bash 
-$ npx prisma db pull
-```
+If you run the project for the first time, the collections will be created. When you delete the collection and run the project again, it will be regereted as your schema.
 ## Running the app
 
 ```bash

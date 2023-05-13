@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ComicService } from './comic.service';
-import { PrismaService } from 'src/shared/database/prisma.service';
 import { ComicController } from './comic.controller';
+import { Comic, ComicSchema } from './comic.model';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ComicRepository } from './comic.repository';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([{ name: Comic.name, schema: ComicSchema }]),
+  ],
   controllers: [ComicController],
-  providers: [ComicService, PrismaService],
+  providers: [ComicService, ComicRepository],
 })
 export class ComicModule {}

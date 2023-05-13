@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, Length, MinLength } from 'class-validator';
 export class NovelChapterDTO {
   @ApiProperty({ required: false, type: String })
   id?: string;
@@ -28,7 +28,7 @@ export class NovelChapterDTO {
   @IsNotEmpty({
     message: 'The context should not be empty',
   })
-  @Length(5, 100)
+  @MinLength(5)
   context: string;
 
   @ApiProperty({ required: true, type: Number })
