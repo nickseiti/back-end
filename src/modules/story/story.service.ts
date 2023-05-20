@@ -1,16 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma.service';
-import { StoryDTO } from './story.dto';
-
+import { StoryDTO } from 'src/modules/story/story.dto';
+import { StoryRepository } from './story.repository';
+import { StoryMapper } from 'src/common/mappers';
 @Injectable()
 export class StoryService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly storyRepository: StoryRepository) {}
 
-  async create(data: StoryDTO) {
-    const story = await this.prisma.story.create({
-      data: { name: data.name },
-    });
+  async create(data: StoryDTO): Promise<StoryDTO | null> {
+    return StoryMapper.entityToDTO(await this.storyRepository.create(data));
+  }
 
-    return story;
+  async findAll(): Promise<StoryDTO[] | null> {
+    return StoryMapper.entityListToDTO(await this.storyRepository.findAll());
+  }
+
+  async findById(id: string): Promise<StoryDTO | null> {
+    return StoryMapper.entityToDTO(await this.storyRepository.findById(id));
+  }
+
+  async update(id: string, data: StoryDTO): Promise<StoryDTO | null> {
+    return StoryMapper.entityToDTO(
+      await this.storyRepository.update(id, StoryMapper.dtoToEntity(data)),
+    );
+  }
+
+  async delete(id: string): Promise<StoryDTO | null> {
+    return StoryMapper.entityToDTO(await this.storyRepository.delete(id));
   }
 }
