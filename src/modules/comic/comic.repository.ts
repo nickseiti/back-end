@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Comic } from './Comic.model';
-import { ComicDTO } from './Comic.dto';
+import { Comic, ComicDocument } from './Comic.model';
 
 @Injectable()
 export class ComicRepository {
   constructor(
     @InjectModel(Comic.name)
-    private readonly comicModel: Model<Comic>,
+    private readonly comicModel: Model<ComicDocument>,
   ) {}
 
-  async create(comicDTO: ComicDTO): Promise<Comic> {
-    const createdComic = new this.comicModel(comicDTO);
+  async create(comic: Comic): Promise<Comic> {
+    const createdComic = new this.comicModel(comic);
     return await createdComic.save();
   }
 
@@ -24,9 +23,9 @@ export class ComicRepository {
     return await this.comicModel.findById(id).exec();
   }
 
-  async update(id: string, comicDTO: ComicDTO): Promise<Comic> {
+  async update(id: string, comic: Comic): Promise<Comic> {
     return await this.comicModel
-      .findByIdAndUpdate(id, comicDTO, {
+      .findByIdAndUpdate(id, comic, {
         new: true,
       })
       .exec();

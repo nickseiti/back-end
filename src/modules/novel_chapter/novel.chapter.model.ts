@@ -1,7 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Transform } from 'class-transformer';
 
+export type NovelChapterDocument = NovelChapter & Document;
 @Schema({ timestamps: true })
 export class NovelChapter {
+  @Transform(({ value }) => value.toString())
   _id?: string;
 
   @Prop({ type: String })

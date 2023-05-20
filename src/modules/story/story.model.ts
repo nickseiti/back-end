@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import { Novel } from '../novel/novel.model';
-import { Comic } from '../comic/comic.model';
+import { Transform, Type } from 'class-transformer';
+import { Novel, NovelSchema } from '../novel/novel.model';
+import { Comic, ComicSchema } from '../comic/comic.model';
 
+export type StoryDocument = Story & Document;
 @Schema({ timestamps: true })
 export class Story {
+  @Transform(({ value }) => value.toString())
   _id?: string;
 
   @Prop({ maxlength: 100, minlength: 5, unique: true })
@@ -17,15 +19,15 @@ export class Story {
   updatedAt?: Date;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Novel.name,
+    type: NovelSchema,
   })
+  @Type(() => Novel)
   novel?: Novel;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Comic.name,
+    type: ComicSchema,
   })
+  @Type(() => Comic)
   comic?: Comic;
 }
 

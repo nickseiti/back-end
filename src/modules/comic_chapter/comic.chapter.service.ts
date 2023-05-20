@@ -11,7 +11,9 @@ export class ComicChapterService {
 
   async create(data: ComicChapterDTO): Promise<ComicChapterDTO | null> {
     return ComicChapterMapper.entityToDTO(
-      await this.comicChapterRepository.create(data),
+      await this.comicChapterRepository.create(
+        ComicChapterMapper.dtoToEntity(data),
+      ),
     );
   }
 
@@ -21,9 +23,9 @@ export class ComicChapterService {
     );
   }
 
-  async findById(data: string): Promise<ComicChapterDTO | null> {
+  async findById(id: string): Promise<ComicChapterDTO | null> {
     return ComicChapterMapper.entityToDTO(
-      await this.comicChapterRepository.findById(data),
+      await this.comicChapterRepository.findById(id),
     );
   }
 
@@ -32,7 +34,10 @@ export class ComicChapterService {
     data: ComicChapterDTO,
   ): Promise<ComicChapterDTO | null> {
     return ComicChapterMapper.entityToDTO(
-      await this.comicChapterRepository.update(id, data),
+      await this.comicChapterRepository.update(
+        id,
+        ComicChapterMapper.dtoToEntity(data),
+      ),
     );
   }
 

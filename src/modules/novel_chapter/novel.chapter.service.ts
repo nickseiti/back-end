@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { NovelChapterDTO } from './novel.chapter.dto';
 import { NovelChapterRepository } from './novel.chapter.repository';
-import { NovelChapter } from './novel.chapter.model';
 import { NovelChapterMapper } from 'src/common/mappers';
 
 @Injectable()
@@ -10,34 +9,39 @@ export class NovelChapterService {
     private readonly novelChapterRepository: NovelChapterRepository,
   ) {}
 
-  async create(data: NovelChapterDTO): Promise<NovelChapter | null> {
+  async create(data: NovelChapterDTO): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.create(data),
+      await this.novelChapterRepository.create(
+        NovelChapterMapper.dtoToEntity(data),
+      ),
     );
   }
 
-  async findAll(): Promise<NovelChapter[] | null> {
+  async findAll(): Promise<NovelChapterDTO[] | null> {
     return NovelChapterMapper.entityListToDTO(
       await this.novelChapterRepository.findAll(),
     );
   }
 
-  async findById(data: string): Promise<NovelChapter | null> {
+  async findById(id: string): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.findById(data),
+      await this.novelChapterRepository.findById(id),
     );
   }
 
   async update(
     id: string,
     data: NovelChapterDTO,
-  ): Promise<NovelChapter | null> {
+  ): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.update(id, data),
+      await this.novelChapterRepository.update(
+        id,
+        NovelChapterMapper.dtoToEntity(data),
+      ),
     );
   }
 
-  async delete(id: string): Promise<NovelChapter | null> {
+  async delete(id: string): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
       await this.novelChapterRepository.delete(id),
     );

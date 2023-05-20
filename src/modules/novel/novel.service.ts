@@ -8,19 +8,23 @@ export class NovelService {
   constructor(private readonly novelRepository: NovelRepository) {}
 
   async create(data: NovelDTO): Promise<NovelDTO | null> {
-    return NovelMapper.entityToDTO(await this.novelRepository.create(data));
+    return NovelMapper.entityToDTO(
+      await this.novelRepository.create(NovelMapper.dtoToEntity(data)),
+    );
   }
 
   async findAll(): Promise<NovelDTO[] | null> {
-    return NovelMapper.dtoListToEntity(await this.novelRepository.findAll());
+    return NovelMapper.entityListToDTO(await this.novelRepository.findAll());
   }
 
-  async findById(data: string): Promise<NovelDTO | null> {
-    return NovelMapper.entityToDTO(await this.novelRepository.findById(data));
+  async findById(id: string): Promise<NovelDTO | null> {
+    return NovelMapper.entityToDTO(await this.novelRepository.findById(id));
   }
 
   async update(id: string, data: NovelDTO): Promise<NovelDTO | null> {
-    return NovelMapper.entityToDTO(await this.novelRepository.update(id, data));
+    return NovelMapper.entityToDTO(
+      await this.novelRepository.update(id, NovelMapper.dtoToEntity(data)),
+    );
   }
 
   async delete(id: string): Promise<NovelDTO | null> {

@@ -19,7 +19,9 @@ export class StoryService {
   }
 
   async update(id: string, data: StoryDTO): Promise<StoryDTO | null> {
-    return StoryMapper.entityToDTO(await this.storyRepository.update(id, data));
+    return StoryMapper.entityToDTO(
+      await this.storyRepository.update(id, StoryMapper.dtoToEntity(data)),
+    );
   }
 
   async delete(id: string): Promise<StoryDTO | null> {

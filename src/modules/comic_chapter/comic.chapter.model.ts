@@ -1,7 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Transform } from 'class-transformer';
 
+export type ComicChapterDocument = ComicChapter & Document;
 @Schema({ timestamps: true })
 export class ComicChapter {
+  @Transform(({ value }) => value.toString())
   _id?: string;
 
   @Prop({ type: String })
@@ -13,7 +16,7 @@ export class ComicChapter {
   @Prop({ type: String, minlength: 5, maxlength: 100 })
   title: string;
 
-  @Prop({ type: String, isArray: true })
+  @Prop({ type: [String], isArray: true })
   images: string[];
 
   @Prop({ type: Number })

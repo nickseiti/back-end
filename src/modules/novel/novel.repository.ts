@@ -1,32 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Novel } from './novel.model';
-import { NovelDTO } from './novel.dto';
+import { Novel, NovelDocument } from './novel.model';
 
 @Injectable()
 export class NovelRepository {
   constructor(
     @InjectModel(Novel.name)
-    private readonly novelModel: Model<Novel>,
+    private readonly novelModel: Model<NovelDocument>,
   ) {}
 
-  async create(novelDTO: NovelDTO): Promise<Novel> {
-    const createdNovel = new this.novelModel(novelDTO);
+  async create(novel: Novel): Promise<Novel> {
+    const createdNovel = new this.novelModel(novel);
     return await createdNovel.save();
   }
 
   async findAll(): Promise<Novel[]> {
-    return await this.novelModel.find().exec();
+    return await this.novelModel.find().populate('chapters').exec();
   }
 
   async findById(id: string): Promise<Novel> {
     return await this.novelModel.findById(id).exec();
   }
 
-  async update(id: string, novelDTO: NovelDTO): Promise<Novel> {
+  async update(id: string, novel: Novel): Promise<Novel> {
     return await this.novelModel
-      .findByIdAndUpdate(id, novelDTO, { new: true })
+      .findByIdAndUpdate(id, novel, { new: true })
       .exec();
   }
 
