@@ -18,6 +18,6 @@ export class CreateComicDTO {
   @ApiProperty({ required: true, type: Number })
   views: number;
 
-  @ApiProperty({ required: true, type: Boolean })
+  @ApiProperty({ required: true, type: Boolean, default: false })
   complete: boolean;
 }
