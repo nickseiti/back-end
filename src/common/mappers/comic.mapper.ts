@@ -5,6 +5,7 @@ import {
   UpdateComicDTO,
 } from 'src/modules/comic/dto/index';
 import { ComicChapterMapper } from './comic.chapter.mapper';
+import { ComicChapterDTO } from 'src/modules/comic_chapter/dto';
 
 export class ComicMapper {
   static dtoToEntity(dto: ComicDTO): Comic {
@@ -84,13 +85,16 @@ export class ComicMapper {
     return entitys;
   }
 
-  static updateDtoToEntity(dto: UpdateComicDTO): Comic {
+  static updateDtoToEntity(
+    dto: UpdateComicDTO,
+    chapters: ComicChapterDTO[],
+  ): Comic {
     if (dto) {
       return {
         _id: dto.id,
         complete: dto.complete,
         storyId: dto.storyId,
-        chapters: ComicChapterMapper.updateDtoListToEntity(dto.chapters),
+        chapters: ComicChapterMapper.dtoListToEntity(chapters),
         views: dto.views,
         storyName: dto.storyName,
       };
@@ -98,14 +102,17 @@ export class ComicMapper {
     return null;
   }
 
-  static updateDtoListToEntity(dtos: UpdateComicDTO[]): Comic[] {
-    const entitys: Comic[] = [];
-    if (dtos) {
-      dtos.forEach((dto) => {
-        entitys.push(ComicMapper.updateDtoToEntity(dto));
-      });
+  static dtoToUpdateDto(dto: ComicDTO): UpdateComicDTO {
+    if (dto) {
+      return {
+        id: dto.id,
+        complete: dto.complete,
+        storyId: dto.storyId,
+        views: dto.views,
+        chaptersId: ComicChapterMapper.dtoIdListToString(dto.chapters),
+        storyName: dto.storyName,
+      };
     }
-
-    return entitys;
+    return null;
   }
 }

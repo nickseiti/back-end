@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Length } from 'class-validator';
-import { UpdateNovelChapterDTO } from '../../novel_chapter/dto/index';
 
 export class UpdateNovelDTO {
   @ApiProperty({ required: true, type: String })
@@ -21,10 +20,10 @@ export class UpdateNovelDTO {
 
   @ApiProperty({
     required: false,
-    type: [UpdateNovelChapterDTO],
+    type: [String],
     isArray: true,
   })
-  chapters?: UpdateNovelChapterDTO[];
+  chaptersId?: string[];
 
   @ApiProperty({ required: true, type: Number })
   views: number;

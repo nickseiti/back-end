@@ -112,4 +112,22 @@ export class ComicChapterMapper {
 
     return ComicChapters;
   }
+
+  static dtoIdToString(dto: ComicChapterDTO): string {
+    if (dto) {
+      return dto.id;
+    }
+    return null;
+  }
+
+  static dtoIdListToString(dto: ComicChapterDTO[]): string[] {
+    const id: string[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        id.push(ComicChapterMapper.dtoIdToString(chapter));
+      });
+    }
+
+    return id;
+  }
 }

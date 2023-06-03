@@ -110,4 +110,22 @@ export class NovelChapterMapper {
 
     return novelChapters;
   }
+
+  static dtoIdToString(dto: NovelChapterDTO): string {
+    if (dto) {
+      return dto.id;
+    }
+    return null;
+  }
+
+  static dtoIdListToString(dto: NovelChapterDTO[]): string[] {
+    const id: string[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        id.push(NovelChapterMapper.dtoIdToString(chapter));
+      });
+    }
+
+    return id;
+  }
 }

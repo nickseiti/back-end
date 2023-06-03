@@ -6,6 +6,8 @@ import {
 } from 'src/modules/story/dto/index';
 import { NovelMapper } from './novel.mapper';
 import { ComicMapper } from './comic.mapper';
+import { NovelDTO } from 'src/modules/novel/dto';
+import { ComicDTO } from 'src/modules/comic/dto';
 
 export class StoryMapper {
   static dtoToEntity(dto: StoryDTO): Story {
@@ -78,13 +80,17 @@ export class StoryMapper {
     return storys;
   }
 
-  static updateDtoToEntity(dto: UpdateStoryDTO): Story {
+  static updateDtoToEntity(
+    dto: UpdateStoryDTO,
+    novel: NovelDTO,
+    comic: ComicDTO,
+  ): Story {
     if (dto) {
       return {
         _id: dto.id,
         name: dto.name,
-        novel: NovelMapper.updateDtoToEntity(dto.novel),
-        comic: ComicMapper.dtoToEntity(dto.comic),
+        novel: NovelMapper.dtoToEntity(novel),
+        comic: ComicMapper.dtoToEntity(comic),
       };
     }
     return null;
