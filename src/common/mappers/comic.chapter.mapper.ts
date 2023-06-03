@@ -1,5 +1,9 @@
 import { ComicChapter } from 'src/modules/comic_chapter/comic.chapter.model';
-import { ComicChapterDTO } from 'src/modules/comic_chapter/dto/index';
+import {
+  ComicChapterDTO,
+  CreateComicChapterDTO,
+  UpdateComicChapterDTO,
+} from 'src/modules/comic_chapter/dto/index';
 
 export class ComicChapterMapper {
   static dtoToEntity(dto: ComicChapterDTO): ComicChapter {
@@ -56,5 +60,56 @@ export class ComicChapterMapper {
     }
 
     return dtos;
+  }
+
+  static createDtoToEntity(dto: CreateComicChapterDTO): ComicChapter {
+    if (dto) {
+      return {
+        chapter: dto.chapter,
+        images: dto.images,
+        comicId: dto.comicId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static createDtoListToEntity(dto: CreateComicChapterDTO[]): ComicChapter[] {
+    const ComicChapters: ComicChapter[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        ComicChapters.push(ComicChapterMapper.createDtoToEntity(chapter));
+      });
+    }
+
+    return ComicChapters;
+  }
+
+  static updateDtoToEntity(dto: UpdateComicChapterDTO): ComicChapter {
+    if (dto) {
+      return {
+        _id: dto.id,
+        chapter: dto.chapter,
+        images: dto.images,
+        comicId: dto.comicId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static updateDtoListToEntity(dto: UpdateComicChapterDTO[]): ComicChapter[] {
+    const ComicChapters: ComicChapter[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        ComicChapters.push(ComicChapterMapper.updateDtoToEntity(chapter));
+      });
+    }
+
+    return ComicChapters;
   }
 }

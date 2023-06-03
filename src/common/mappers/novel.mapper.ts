@@ -1,4 +1,8 @@
-import { NovelDTO } from 'src/modules/novel/dto/index';
+import {
+  CreateNovelDTO,
+  NovelDTO,
+  UpdateNovelDTO,
+} from 'src/modules/novel/dto/index';
 import { Novel } from 'src/modules/novel/novel.model';
 import { NovelChapterMapper } from './novel.chapter.mapper';
 
@@ -55,5 +59,53 @@ export class NovelMapper {
     }
 
     return dtos;
+  }
+
+  static createDtoToEntity(dto: CreateNovelDTO): Novel {
+    if (dto) {
+      return {
+        complete: dto.complete,
+        storyId: dto.storyId,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static createDtoListToEntity(dto: CreateNovelDTO[]): Novel[] {
+    const novels: Novel[] = [];
+    if (dto) {
+      dto.forEach((novel) => {
+        novels.push(NovelMapper.createDtoToEntity(novel));
+      });
+    }
+
+    return novels;
+  }
+
+  static updateDtoToEntity(dto: UpdateNovelDTO): Novel {
+    if (dto) {
+      return {
+        _id: dto.id,
+        complete: dto.complete,
+        storyId: dto.storyId,
+        views: dto.views,
+        chapters: NovelChapterMapper.updateDtoListToEntity(dto.chapters),
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static updateDtoListToEntity(dto: UpdateNovelDTO[]): Novel[] {
+    const novels: Novel[] = [];
+    if (dto) {
+      dto.forEach((novel) => {
+        novels.push(NovelMapper.updateDtoToEntity(novel));
+      });
+    }
+
+    return novels;
   }
 }
