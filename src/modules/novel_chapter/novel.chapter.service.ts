@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { NovelChapterDTO } from './novel.chapter.dto';
+import {
+  NovelChapterDTO,
+  CreateNovelChapterDTO,
+  UpdateNovelChapterDTO,
+} from './dto/index';
 import { NovelChapterRepository } from './novel.chapter.repository';
 import { NovelChapterMapper } from 'src/common/mappers';
 
@@ -9,11 +13,9 @@ export class NovelChapterService {
     private readonly novelChapterRepository: NovelChapterRepository,
   ) {}
 
-  async create(data: NovelChapterDTO): Promise<NovelChapterDTO | null> {
+  async create(data: CreateNovelChapterDTO): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.create(
-        NovelChapterMapper.dtoToEntity(data),
-      ),
+      await this.novelChapterRepository.create(data),
     );
   }
 
@@ -31,13 +33,10 @@ export class NovelChapterService {
 
   async update(
     id: string,
-    data: NovelChapterDTO,
+    data: UpdateNovelChapterDTO,
   ): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.update(
-        id,
-        NovelChapterMapper.dtoToEntity(data),
-      ),
+      await this.novelChapterRepository.update(id, data),
     );
   }
 

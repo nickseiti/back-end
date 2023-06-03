@@ -11,5 +11,6 @@ import { ComicRepository } from './comic.repository';
   ],
   controllers: [ComicController],
   providers: [ComicService, ComicRepository],
+  exports: [ComicService],
 })
 export class ComicModule {}

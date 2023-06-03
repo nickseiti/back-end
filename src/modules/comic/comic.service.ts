@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ComicDTO } from './comic.dto';
+import { ComicDTO, CreateComicDTO, UpdateComicDTO } from './dto/index';
 import { ComicRepository } from './comic.repository';
 import { ComicMapper } from 'src/common/mappers';
 
@@ -7,10 +7,8 @@ import { ComicMapper } from 'src/common/mappers';
 export class ComicService {
   constructor(private readonly comicRepository: ComicRepository) {}
 
-  async create(data: ComicDTO): Promise<ComicDTO | null> {
-    return ComicMapper.entityToDTO(
-      await this.comicRepository.create(ComicMapper.dtoToEntity(data)),
-    );
+  async create(data: CreateComicDTO): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.create(data));
   }
 
   async findAll(): Promise<ComicDTO[] | null> {
@@ -21,10 +19,8 @@ export class ComicService {
     return ComicMapper.entityToDTO(await this.comicRepository.findById(id));
   }
 
-  async update(id: string, data: ComicDTO): Promise<ComicDTO | null> {
-    return ComicMapper.entityToDTO(
-      await this.comicRepository.update(id, ComicMapper.dtoToEntity(data)),
-    );
+  async update(id: string, data: UpdateComicDTO): Promise<ComicDTO | null> {
+    return ComicMapper.entityToDTO(await this.comicRepository.update(id, data));
   }
 
   async delete(id: string): Promise<ComicDTO | null> {

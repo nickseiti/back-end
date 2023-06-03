@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform, Type } from 'class-transformer';
-import { Novel, NovelSchema } from '../novel/novel.model';
-import { Comic, ComicSchema } from '../comic/comic.model';
+import { Novel } from '../novel/novel.model';
+import { Comic } from '../comic/comic.model';
+import mongoose from 'mongoose';
 
 export type StoryDocument = Story & Document;
 @Schema({ timestamps: true })
@@ -19,13 +20,15 @@ export class Story {
   updatedAt?: Date;
 
   @Prop({
-    type: NovelSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Novel',
   })
   @Type(() => Novel)
   novel?: Novel;
 
   @Prop({
-    type: ComicSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comic',
   })
   @Type(() => Comic)
   comic?: Comic;

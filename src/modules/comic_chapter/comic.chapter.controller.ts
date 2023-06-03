@@ -8,7 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { ComicChapterService } from './comic.chapter.service';
-import { ComicChapterDTO } from './comic.chapter.dto';
+import {
+  ComicChapterDTO,
+  CreateComicChapterDTO,
+  UpdateComicChapterDTO,
+} from './dto/index';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('comicChapter')
@@ -17,22 +21,25 @@ export class ComicChapterController {
   constructor(private readonly comicChapterService: ComicChapterService) {}
 
   @Post()
-  async create(@Body() data: ComicChapterDTO) {
+  async create(@Body() data: CreateComicChapterDTO): Promise<ComicChapterDTO> {
     return this.comicChapterService.create(data);
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<ComicChapterDTO[]> {
     return this.comicChapterService.findAll();
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string) {
+  async findById(@Param('id') id: string): Promise<ComicChapterDTO> {
     return this.comicChapterService.findById(id);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() data: ComicChapterDTO) {
+  async update(
+    @Param('id') id: string,
+    @Body() data: UpdateComicChapterDTO,
+  ): Promise<ComicChapterDTO> {
     return this.comicChapterService.update(id, data);
   }
 

@@ -13,5 +13,6 @@ import { NovelChapterRepository } from './novel.chapter.repository';
   ],
   controllers: [NovelChapterController],
   providers: [NovelChapterService, NovelChapterRepository],
+  exports: [NovelChapterService],
 })
 export class NovelChapterModule {}

@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { StoryService } from './story.service';
-import { StoryDTO } from './story.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateStoryDTO, UpdateStoryDTO, StoryDTO } from './dto/index';
 
 @Controller('story')
 @ApiTags('story')
@@ -17,7 +17,7 @@ export class StoryController {
   constructor(private readonly storyService: StoryService) {}
 
   @Post()
-  async create(@Body() data: StoryDTO): Promise<StoryDTO> {
+  async create(@Body() data: CreateStoryDTO): Promise<StoryDTO> {
     return this.storyService.create(data);
   }
 
@@ -34,7 +34,7 @@ export class StoryController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() data: StoryDTO,
+    @Body() data: UpdateStoryDTO,
   ): Promise<StoryDTO> {
     return this.storyService.update(id, data);
   }
