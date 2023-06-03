@@ -1,5 +1,5 @@
-import { ComicDTO } from '../comic/comic.dto';
-import { NovelDTO } from '../novel/novel.dto';
+import { ComicDTO } from '../../comic/dto/comic.dto';
+import { NovelDTO } from '../../novel/dto/novel.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Length } from 'class-validator';
 
@@ -20,9 +20,9 @@ export class StoryDTO {
   @ApiProperty({ required: false, type: Date })
   updatedAt?: Date;
 
-  @ApiProperty({ required: false, type: [NovelDTO] })
+  @ApiProperty({ required: false, type: NovelDTO })
   novel?: NovelDTO;
 
-  @ApiProperty({ required: false, type: [ComicDTO] })
+  @ApiProperty({ required: false, type: ComicDTO })
   comic?: ComicDTO;
 }
