@@ -1,5 +1,5 @@
 import { ComicChapter } from 'src/modules/comic_chapter/comic.chapter.model';
-import { ComicChapterDTO } from 'src/modules/comic_chapter/comic.chapter.dto';
+import { ComicChapterDTO } from 'src/modules/comic_chapter/dto/index';
 
 export class ComicChapterMapper {
   static dtoToEntity(dto: ComicChapterDTO): ComicChapter {

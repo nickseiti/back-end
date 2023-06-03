@@ -1,4 +1,4 @@
-import { NovelDTO } from 'src/modules/novel/novel.dto';
+import { NovelDTO } from 'src/modules/novel/dto/index';
 import { Novel } from 'src/modules/novel/novel.model';
 import { NovelChapterMapper } from './novel.chapter.mapper';
 

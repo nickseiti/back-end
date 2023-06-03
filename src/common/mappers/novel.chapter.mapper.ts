@@ -1,5 +1,5 @@
 import { NovelChapter } from 'src/modules/novel_chapter/novel.chapter.model';
-import { NovelChapterDTO } from 'src/modules/novel_chapter/novel.chapter.dto';
+import { NovelChapterDTO } from 'src/modules/novel_chapter/dto/index';
 
 export class NovelChapterMapper {
   static dtoToEntity(dto: NovelChapterDTO): NovelChapter {

@@ -1,5 +1,5 @@
 import { Comic } from 'src/modules/comic/comic.model';
-import { ComicDTO } from 'src/modules/comic/comic.dto';
+import { ComicDTO } from 'src/modules/comic/dto/index';
 import { ComicChapterMapper } from './comic.chapter.mapper';
 
 export class ComicMapper {

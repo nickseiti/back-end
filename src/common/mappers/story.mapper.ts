@@ -1,5 +1,5 @@
 import { Story } from 'src/modules/story/story.model';
-import { StoryDTO } from 'src/modules/story/story.dto';
+import { StoryDTO } from 'src/modules/story/dto/index';
 import { NovelMapper } from './novel.mapper';
 import { ComicMapper } from './comic.mapper';
 
