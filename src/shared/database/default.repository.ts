@@ -1,9 +1,9 @@
 import { Model } from 'mongoose';
 
-export abstract class DefaultRepository<T, CREATEDTO, UPDATEDTO> {
+export abstract class DefaultRepository<T> {
   constructor(protected readonly model: Model<T>) {}
 
-  async create(dto: Partial<CREATEDTO>): Promise<T> {
+  async create(dto: Partial<T>): Promise<T> {
     const createdEntity = new this.model(dto);
     return await createdEntity.save();
   }
@@ -16,7 +16,7 @@ export abstract class DefaultRepository<T, CREATEDTO, UPDATEDTO> {
     return await this.model.findById(id).exec();
   }
 
-  async update(id: string, dto: Partial<UPDATEDTO>): Promise<T> {
+  async update(id: string, dto: Partial<T>): Promise<T> {
     return await this.model.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 
