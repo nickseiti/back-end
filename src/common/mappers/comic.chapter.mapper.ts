@@ -11,7 +11,7 @@ export class ComicChapterMapper {
       return {
         _id: dto.id,
         chapter: dto.chapter,
-        images: dto.images,
+        chapterImages: dto.images,
         comicId: dto.comicId,
         title: dto.title,
         views: dto.views,
@@ -39,7 +39,7 @@ export class ComicChapterMapper {
       return {
         id: entity._id,
         chapter: entity.chapter,
-        images: entity.images,
+        images: entity.chapterImages,
         comicId: entity.comicId,
         title: entity.title,
         views: entity.views,
@@ -66,7 +66,7 @@ export class ComicChapterMapper {
     if (dto) {
       return {
         chapter: dto.chapter,
-        images: dto.images,
+        chapterImages: dto.images,
         comicId: dto.comicId,
         title: dto.title,
         views: dto.views,
@@ -92,7 +92,7 @@ export class ComicChapterMapper {
       return {
         _id: dto.id,
         chapter: dto.chapter,
-        images: dto.images,
+        chapterImages: dto.images,
         comicId: dto.comicId,
         title: dto.title,
         views: dto.views,
@@ -107,6 +107,32 @@ export class ComicChapterMapper {
     if (dto) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.updateDtoToEntity(chapter));
+      });
+    }
+
+    return ComicChapters;
+  }
+
+  static dtoToUpdate(dto: ComicChapterDTO): UpdateComicChapterDTO {
+    if (dto) {
+      return {
+        id: dto.id,
+        chapter: dto.chapter,
+        images: dto.images,
+        comicId: dto.comicId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static dtoListToUpdate(dto: ComicChapterDTO[]): UpdateComicChapterDTO[] {
+    const ComicChapters: UpdateComicChapterDTO[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        ComicChapters.push(ComicChapterMapper.dtoToUpdate(chapter));
       });
     }
 

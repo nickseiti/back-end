@@ -15,7 +15,9 @@ export class ComicChapterService {
 
   async create(data: CreateComicChapterDTO): Promise<ComicChapterDTO | null> {
     return ComicChapterMapper.entityToDTO(
-      await this.comicChapterRepository.create(data),
+      await this.comicChapterRepository.create(
+        ComicChapterMapper.createDtoToEntity(data),
+      ),
     );
   }
 
@@ -36,7 +38,10 @@ export class ComicChapterService {
     data: UpdateComicChapterDTO,
   ): Promise<ComicChapterDTO | null> {
     return ComicChapterMapper.entityToDTO(
-      await this.comicChapterRepository.update(id, data),
+      await this.comicChapterRepository.update(
+        id,
+        ComicChapterMapper.updateDtoToEntity(data),
+      ),
     );
   }
 

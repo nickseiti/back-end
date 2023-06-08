@@ -5,7 +5,6 @@ import {
 } from 'src/modules/novel/dto/index';
 import { Novel } from 'src/modules/novel/novel.model';
 import { NovelChapterMapper } from './novel.chapter.mapper';
-import { NovelChapterDTO } from 'src/modules/novel_chapter/dto';
 
 export class NovelMapper {
   static dtoToEntity(dto: NovelDTO): Novel {
@@ -85,17 +84,14 @@ export class NovelMapper {
     return novels;
   }
 
-  static updateDtoToEntity(
-    dto: UpdateNovelDTO,
-    novelChapter: NovelChapterDTO[],
-  ): Novel {
+  static updateDtoToEntity(dto: UpdateNovelDTO): Novel {
     if (dto) {
       return {
         _id: dto.id,
         complete: dto.complete,
         storyId: dto.storyId,
         views: dto.views,
-        chapters: NovelChapterMapper.dtoListToEntity(novelChapter),
+        chapters: NovelChapterMapper.updateDtoListToEntity(dto.chaptersId),
         storyName: dto.storyName,
       };
     }
@@ -109,7 +105,7 @@ export class NovelMapper {
         complete: dto.complete,
         storyId: dto.storyId,
         views: dto.views,
-        chaptersId: NovelChapterMapper.dtoIdListToString(dto.chapters),
+        chaptersId: NovelChapterMapper.dtoListToUpdate(dto.chapters),
         storyName: dto.storyName,
       };
     }

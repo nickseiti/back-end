@@ -5,7 +5,6 @@ import {
   UpdateComicDTO,
 } from 'src/modules/comic/dto/index';
 import { ComicChapterMapper } from './comic.chapter.mapper';
-import { ComicChapterDTO } from 'src/modules/comic_chapter/dto';
 
 export class ComicMapper {
   static dtoToEntity(dto: ComicDTO): Comic {
@@ -85,16 +84,13 @@ export class ComicMapper {
     return entitys;
   }
 
-  static updateDtoToEntity(
-    dto: UpdateComicDTO,
-    chapters: ComicChapterDTO[],
-  ): Comic {
+  static updateDtoToEntity(dto: UpdateComicDTO): Comic {
     if (dto) {
       return {
         _id: dto.id,
         complete: dto.complete,
         storyId: dto.storyId,
-        chapters: ComicChapterMapper.dtoListToEntity(chapters),
+        chapters: ComicChapterMapper.dtoListToEntity(dto.chapters),
         views: dto.views,
         storyName: dto.storyName,
       };
@@ -109,7 +105,7 @@ export class ComicMapper {
         complete: dto.complete,
         storyId: dto.storyId,
         views: dto.views,
-        chaptersId: ComicChapterMapper.dtoIdListToString(dto.chapters),
+        chapters: ComicChapterMapper.dtoListToUpdate(dto.chapters),
         storyName: dto.storyName,
       };
     }

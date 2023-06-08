@@ -17,7 +17,7 @@ export class StoryService {
 
   async create(data: CreateStoryDTO): Promise<StoryDTO | null> {
     const storyDTO: StoryDTO = StoryMapper.entityToDTO(
-      await this.storyRepository.create(data),
+      await this.storyRepository.create(StoryMapper.createDtoToEntity(data)),
     );
 
     return storyDTO;
@@ -33,26 +33,27 @@ export class StoryService {
 
   async update(id: string, data: UpdateStoryDTO): Promise<StoryDTO | null> {
     const storyDTO: StoryDTO = StoryMapper.entityToDTO(
-      await this.storyRepository.update(id, data),
+      await this.storyRepository.update(
+        id,
+        StoryMapper.updateDtoToEntity(data, data.novel, data.comic),
+      ),
     );
 
-    console.log(data);
-
-    if (data.novelId) {
-      console.log('entrou');
-      const novel: UpdateNovelDTO = NovelMapper.dtoToUpdateDto(
-        await this.novelService.findById(data.novelId),
+    if (data.novel) {
+      // eslint-disable-next-line prefer-const
+      let novel: UpdateNovelDTO = NovelMapper.dtoToUpdateDto(
+        await this.novelService.findById(data.novel.id),
       );
       novel.storyName = data.name;
-      console.log(novel);
-      storyDTO.novel = await this.novelService.update(data.novelId, novel);
+      storyDTO.novel = await this.novelService.update(data.novel.id, novel);
     }
-    if (data.comicId) {
-      const comic: UpdateComicDTO = ComicMapper.dtoToUpdateDto(
-        await this.comicService.findById(data.comicId),
+    if (data.comic) {
+      // eslint-disable-next-line prefer-const
+      let comic: UpdateComicDTO = ComicMapper.dtoToUpdateDto(
+        await this.comicService.findById(data.comic.id),
       );
       comic.storyName = data.name;
-      storyDTO.comic = await this.comicService.update(data.comicId, comic);
+      storyDTO.comic = await this.comicService.update(data.comic.id, comic);
     }
     return storyDTO;
   }

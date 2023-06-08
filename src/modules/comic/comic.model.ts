@@ -17,9 +17,7 @@ export class Comic {
   storyName: string;
 
   @Prop({
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: ComicChapter.name,
-    isArray: true,
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: ComicChapter.name }],
   })
   @Type(() => ComicChapter)
   chapters?: ComicChapter[];

@@ -89,6 +89,7 @@ export class NovelChapterMapper {
   static updateDtoToEntity(dto: UpdateNovelChapterDTO): NovelChapter {
     if (dto) {
       return {
+        _id: dto.id,
         chapter: dto.chapter,
         context: dto.context,
         novelId: dto.novelId,
@@ -105,6 +106,32 @@ export class NovelChapterMapper {
     if (dto) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.updateDtoToEntity(chapter));
+      });
+    }
+
+    return novelChapters;
+  }
+
+  static dtoToUpdate(dto: NovelChapterDTO): UpdateNovelChapterDTO {
+    if (dto) {
+      return {
+        id: dto.id,
+        chapter: dto.chapter,
+        context: dto.context,
+        novelId: dto.novelId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static dtoListToUpdate(dto: NovelChapterDTO[]): UpdateNovelChapterDTO[] {
+    const novelChapters: UpdateNovelChapterDTO[] = [];
+    if (dto) {
+      dto.forEach((chapter) => {
+        novelChapters.push(NovelChapterMapper.dtoToUpdate(chapter));
       });
     }
 

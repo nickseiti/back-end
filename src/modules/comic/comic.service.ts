@@ -8,7 +8,9 @@ export class ComicService {
   constructor(private readonly comicRepository: ComicRepository) {}
 
   async create(data: CreateComicDTO): Promise<ComicDTO | null> {
-    return ComicMapper.entityToDTO(await this.comicRepository.create(data));
+    return ComicMapper.entityToDTO(
+      await this.comicRepository.create(ComicMapper.createDtoToEntity(data)),
+    );
   }
 
   async findAll(): Promise<ComicDTO[] | null> {
@@ -20,7 +22,12 @@ export class ComicService {
   }
 
   async update(id: string, data: UpdateComicDTO): Promise<ComicDTO | null> {
-    return ComicMapper.entityToDTO(await this.comicRepository.update(id, data));
+    return ComicMapper.entityToDTO(
+      await this.comicRepository.update(
+        id,
+        ComicMapper.updateDtoToEntity(data),
+      ),
+    );
   }
 
   async delete(id: string): Promise<ComicDTO | null> {

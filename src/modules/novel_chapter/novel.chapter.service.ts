@@ -15,7 +15,9 @@ export class NovelChapterService {
 
   async create(data: CreateNovelChapterDTO): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.create(data),
+      await this.novelChapterRepository.create(
+        NovelChapterMapper.createDtoToEntity(data),
+      ),
     );
   }
 
@@ -36,7 +38,10 @@ export class NovelChapterService {
     data: UpdateNovelChapterDTO,
   ): Promise<NovelChapterDTO | null> {
     return NovelChapterMapper.entityToDTO(
-      await this.novelChapterRepository.update(id, data),
+      await this.novelChapterRepository.update(
+        id,
+        NovelChapterMapper.updateDtoToEntity(data),
+      ),
     );
   }
 

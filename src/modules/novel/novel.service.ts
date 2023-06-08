@@ -13,7 +13,7 @@ export class NovelService {
 
   async create(data: CreateNovelDTO): Promise<NovelDTO | null> {
     const novelDTO = NovelMapper.entityToDTO(
-      await this.novelRepository.create(data),
+      await this.novelRepository.create(NovelMapper.createDtoToEntity(data)),
     );
 
     return novelDTO;
@@ -28,7 +28,12 @@ export class NovelService {
   }
 
   async update(id: string, data: UpdateNovelDTO): Promise<NovelDTO | null> {
-    return NovelMapper.entityToDTO(await this.novelRepository.update(id, data));
+    return NovelMapper.entityToDTO(
+      await this.novelRepository.update(
+        id,
+        NovelMapper.updateDtoToEntity(data),
+      ),
+    );
   }
 
   async delete(id: string): Promise<NovelDTO | null> {

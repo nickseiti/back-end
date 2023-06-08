@@ -17,7 +17,7 @@ export class ComicChapter {
   title: string;
 
   @Prop({ type: [String], isArray: true })
-  images: string[];
+  chapterImages: string[];
 
   @Prop({ type: Number })
   chapter: number;

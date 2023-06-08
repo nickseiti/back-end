@@ -16,9 +16,7 @@ export class Novel {
   storyName: string;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId }],
-    ref: NovelChapter.name,
-    isArray: true,
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: NovelChapter.name }],
   })
   @Type(() => NovelChapter)
   chapters?: NovelChapter[];
