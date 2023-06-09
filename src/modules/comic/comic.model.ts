@@ -10,10 +10,16 @@ export class Comic {
   @Transform(({ value }) => value.toString())
   _id?: string;
 
-  @Prop({ type: String, unique: true })
+  @Prop({ required: true, type: String, unique: true })
   storyId: string;
 
-  @Prop({ type: String, maxlength: 100, minlength: 5, unique: true })
+  @Prop({
+    required: true,
+    type: String,
+    maxlength: 100,
+    minlength: 5,
+    unique: true,
+  })
   storyName: string;
 
   @Prop({
@@ -22,10 +28,10 @@ export class Comic {
   @Type(() => ComicChapter)
   chapters?: ComicChapter[];
 
-  @Prop({ type: Number })
+  @Prop({ required: true, type: Number })
   views: number;
 
-  @Prop({ type: Boolean })
+  @Prop({ required: true, type: Boolean })
   complete: boolean;
 
   @Prop({ type: Date })

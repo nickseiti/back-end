@@ -7,22 +7,22 @@ export class NovelChapter {
   @Transform(({ value }) => value.toString())
   _id?: string;
 
-  @Prop({ type: String })
+  @Prop({ required: true, type: String })
   novelId: string;
 
-  @Prop({ type: String, minlength: 5, maxlength: 100 })
+  @Prop({ required: true, type: String, minlength: 5, maxlength: 100 })
   storyName: string;
 
-  @Prop({ type: String, minlength: 5, maxlength: 100 })
+  @Prop({ required: true, type: String, minlength: 5, maxlength: 100 })
   title: string;
 
-  @Prop({ type: String, minlength: 5 })
+  @Prop({ required: true, type: String, minlength: 5 })
   context: string;
 
-  @Prop({ type: Number })
+  @Prop({ required: true, type: Number })
   chapter: number;
 
-  @Prop({ type: Number })
+  @Prop({ required: true, type: Number })
   views: number;
 
   @Prop({ type: Date })

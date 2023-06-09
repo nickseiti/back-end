@@ -10,7 +10,7 @@ export class Story {
   @Transform(({ value }) => value.toString())
   _id?: string;
 
-  @Prop({ maxlength: 100, minlength: 5, unique: true })
+  @Prop({ required: true, maxlength: 100, minlength: 5, unique: true })
   name: string;
 
   @Prop({ type: Date })
