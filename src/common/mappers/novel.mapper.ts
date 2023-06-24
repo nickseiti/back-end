@@ -5,10 +5,11 @@ import {
 } from 'src/modules/novel/dto/index';
 import { Novel } from 'src/modules/novel/novel.model';
 import { NovelChapterMapper } from './novel.chapter.mapper';
+import { isEmpty } from 'class-validator';
 
 export class NovelMapper {
   static dtoToEntity(dto: NovelDTO): Novel {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         complete: dto.complete,
@@ -25,7 +26,7 @@ export class NovelMapper {
 
   static dtoListToEntity(dto: NovelDTO[]): Novel[] {
     const novels: Novel[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((novel) => {
         novels.push(NovelMapper.dtoToEntity(novel));
       });
@@ -35,7 +36,7 @@ export class NovelMapper {
   }
 
   static entityToDTO(entity: Novel): NovelDTO {
-    if (entity) {
+    if (!isEmpty(entity)) {
       return {
         id: entity._id,
         complete: entity.complete,
@@ -52,7 +53,7 @@ export class NovelMapper {
 
   static entityListToDTO(entity: Novel[]): NovelDTO[] {
     const dtos: NovelDTO[] = [];
-    if (entity) {
+    if (entity.length > 0) {
       entity.forEach((story) => {
         dtos.push(NovelMapper.entityToDTO(story));
       });
@@ -62,7 +63,7 @@ export class NovelMapper {
   }
 
   static createDtoToEntity(dto: CreateNovelDTO): Novel {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         complete: dto.complete,
         storyId: dto.storyId,
@@ -75,7 +76,7 @@ export class NovelMapper {
 
   static createDtoListToEntity(dto: CreateNovelDTO[]): Novel[] {
     const novels: Novel[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((novel) => {
         novels.push(NovelMapper.createDtoToEntity(novel));
       });
@@ -85,7 +86,7 @@ export class NovelMapper {
   }
 
   static updateDtoToEntity(dto: UpdateNovelDTO): Novel {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         complete: dto.complete,
@@ -99,7 +100,7 @@ export class NovelMapper {
   }
 
   static dtoToUpdateDto(dto: NovelDTO): UpdateNovelDTO {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         id: dto.id,
         complete: dto.complete,

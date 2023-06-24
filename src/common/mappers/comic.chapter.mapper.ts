@@ -1,3 +1,4 @@
+import { isEmpty } from 'class-validator';
 import { ComicChapter } from 'src/modules/comic_chapter/comic.chapter.model';
 import {
   ComicChapterDTO,
@@ -7,7 +8,7 @@ import {
 
 export class ComicChapterMapper {
   static dtoToEntity(dto: ComicChapterDTO): ComicChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         chapter: dto.chapter,
@@ -25,7 +26,7 @@ export class ComicChapterMapper {
 
   static dtoListToEntity(dto: ComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.dtoToEntity(chapter));
       });
@@ -35,7 +36,7 @@ export class ComicChapterMapper {
   }
 
   static entityToDTO(entity: ComicChapter): ComicChapterDTO {
-    if (entity) {
+    if (!isEmpty(entity)) {
       return {
         id: entity._id,
         chapter: entity.chapter,
@@ -53,7 +54,7 @@ export class ComicChapterMapper {
 
   static entityListToDTO(entity: ComicChapter[]): ComicChapterDTO[] {
     const dtos: ComicChapterDTO[] = [];
-    if (entity) {
+    if (entity.length > 0) {
       entity.forEach((story) => {
         dtos.push(ComicChapterMapper.entityToDTO(story));
       });
@@ -63,7 +64,7 @@ export class ComicChapterMapper {
   }
 
   static createDtoToEntity(dto: CreateComicChapterDTO): ComicChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         chapter: dto.chapter,
         chapterImages: dto.images,
@@ -78,7 +79,7 @@ export class ComicChapterMapper {
 
   static createDtoListToEntity(dto: CreateComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.createDtoToEntity(chapter));
       });
@@ -88,7 +89,7 @@ export class ComicChapterMapper {
   }
 
   static updateDtoToEntity(dto: UpdateComicChapterDTO): ComicChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         chapter: dto.chapter,
@@ -104,7 +105,7 @@ export class ComicChapterMapper {
 
   static updateDtoListToEntity(dto: UpdateComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.updateDtoToEntity(chapter));
       });
@@ -114,7 +115,7 @@ export class ComicChapterMapper {
   }
 
   static dtoToUpdate(dto: ComicChapterDTO): UpdateComicChapterDTO {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         id: dto.id,
         chapter: dto.chapter,
@@ -130,7 +131,7 @@ export class ComicChapterMapper {
 
   static dtoListToUpdate(dto: ComicChapterDTO[]): UpdateComicChapterDTO[] {
     const ComicChapters: UpdateComicChapterDTO[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.dtoToUpdate(chapter));
       });
@@ -140,7 +141,7 @@ export class ComicChapterMapper {
   }
 
   static dtoIdToString(dto: ComicChapterDTO): string {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return dto.id;
     }
     return null;
@@ -148,7 +149,7 @@ export class ComicChapterMapper {
 
   static dtoIdListToString(dto: ComicChapterDTO[]): string[] {
     const id: string[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         id.push(ComicChapterMapper.dtoIdToString(chapter));
       });

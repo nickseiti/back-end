@@ -6,12 +6,11 @@ import {
 } from 'src/modules/story/dto/index';
 import { NovelMapper } from './novel.mapper';
 import { ComicMapper } from './comic.mapper';
-import { UpdateNovelDTO } from 'src/modules/novel/dto';
-import { UpdateComicDTO } from 'src/modules/comic/dto';
+import { isEmpty } from 'class-validator';
 
 export class StoryMapper {
   static dtoToEntity(dto: StoryDTO): Story {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         name: dto.name,
@@ -26,7 +25,7 @@ export class StoryMapper {
 
   static dtoListToEntity(dto: StoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((story) => {
         storys.push(StoryMapper.dtoToEntity(story));
       });
@@ -36,7 +35,7 @@ export class StoryMapper {
   }
 
   static entityToDTO(entity: Story): StoryDTO {
-    if (entity) {
+    if (!isEmpty(entity)) {
       return {
         id: entity._id,
         name: entity.name,
@@ -51,7 +50,7 @@ export class StoryMapper {
 
   static entityListToDTO(entity: Story[]): StoryDTO[] {
     const dtos: StoryDTO[] = [];
-    if (entity) {
+    if (entity.length > 0) {
       entity.forEach((story) => {
         dtos.push(StoryMapper.entityToDTO(story));
       });
@@ -61,7 +60,7 @@ export class StoryMapper {
   }
 
   static createDtoToEntity(dto: CreateStoryDTO): Story {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         name: dto.name,
       };
@@ -71,7 +70,7 @@ export class StoryMapper {
 
   static createDtoListToEntity(dto: CreateStoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((story) => {
         storys.push(StoryMapper.createDtoToEntity(story));
       });
@@ -80,17 +79,33 @@ export class StoryMapper {
     return storys;
   }
 
-  static updateDtoToEntity(
-    dto: UpdateStoryDTO,
-    novel: UpdateNovelDTO,
-    comic: UpdateComicDTO,
-  ): Story {
-    if (dto) {
+  static updateDtoToEntity(dto: UpdateStoryDTO): Story {
+    if (!isEmpty(dto)) {
+      if (!isEmpty(dto.comic)) {
+        if (!isEmpty(dto.novel)) {
+          return {
+            _id: dto.id,
+            name: dto.name,
+            novel: NovelMapper.updateDtoToEntity(dto.novel),
+            comic: ComicMapper.updateDtoToEntity(dto.comic),
+          };
+        }
+        return {
+          _id: dto.id,
+          name: dto.name,
+          comic: ComicMapper.updateDtoToEntity(dto.comic),
+        };
+      }
+      if (!isEmpty(dto.novel)) {
+        return {
+          _id: dto.id,
+          name: dto.name,
+          novel: NovelMapper.updateDtoToEntity(dto.novel),
+        };
+      }
       return {
         _id: dto.id,
         name: dto.name,
-        novel: NovelMapper.updateDtoToEntity(novel),
-        comic: ComicMapper.updateDtoToEntity(comic),
       };
     }
     return null;
@@ -98,12 +113,23 @@ export class StoryMapper {
 
   static updateDtoListToEntity(dto: UpdateStoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((story) => {
         storys.push(StoryMapper.createDtoToEntity(story));
       });
     }
 
     return storys;
+  }
+
+  static dtoToUpdateDto(dto: StoryDTO): UpdateStoryDTO {
+    if (!isEmpty(dto)) {
+      return {
+        id: dto.id,
+        name: dto.name,
+        comic: ComicMapper.dtoToUpdateDto(dto.comic),
+        novel: NovelMapper.dtoToUpdateDto(dto.novel),
+      };
+    }
   }
 }

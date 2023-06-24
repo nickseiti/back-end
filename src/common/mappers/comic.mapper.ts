@@ -5,10 +5,11 @@ import {
   UpdateComicDTO,
 } from 'src/modules/comic/dto/index';
 import { ComicChapterMapper } from './comic.chapter.mapper';
+import { isEmpty } from 'class-validator';
 
 export class ComicMapper {
   static dtoToEntity(dto: ComicDTO): Comic {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         complete: dto.complete,
@@ -25,7 +26,7 @@ export class ComicMapper {
 
   static dtoListToEntity(dtos: ComicDTO[]): Comic[] {
     const entitys: Comic[] = [];
-    if (dtos) {
+    if (dtos.length > 0) {
       dtos.forEach((dto) => {
         entitys.push(ComicMapper.dtoToEntity(dto));
       });
@@ -35,7 +36,7 @@ export class ComicMapper {
   }
 
   static entityToDTO(entity: Comic): ComicDTO {
-    if (entity) {
+    if (!isEmpty(entity)) {
       return {
         id: entity._id,
         complete: entity.complete,
@@ -52,7 +53,7 @@ export class ComicMapper {
 
   static entityListToDTO(entity: Comic[]): ComicDTO[] {
     const dtos: ComicDTO[] = [];
-    if (entity) {
+    if (entity.length > 0) {
       entity.forEach((story) => {
         dtos.push(ComicMapper.entityToDTO(story));
       });
@@ -62,7 +63,7 @@ export class ComicMapper {
   }
 
   static createDtoToEntity(dto: CreateComicDTO): Comic {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         complete: dto.complete,
         storyId: dto.storyId,
@@ -75,7 +76,7 @@ export class ComicMapper {
 
   static createDtoListToEntity(dtos: CreateComicDTO[]): Comic[] {
     const entitys: Comic[] = [];
-    if (dtos) {
+    if (dtos.length > 0) {
       dtos.forEach((dto) => {
         entitys.push(ComicMapper.createDtoToEntity(dto));
       });
@@ -85,7 +86,7 @@ export class ComicMapper {
   }
 
   static updateDtoToEntity(dto: UpdateComicDTO): Comic {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         complete: dto.complete,
@@ -99,7 +100,7 @@ export class ComicMapper {
   }
 
   static dtoToUpdateDto(dto: ComicDTO): UpdateComicDTO {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         id: dto.id,
         complete: dto.complete,

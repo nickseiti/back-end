@@ -4,10 +4,11 @@ import {
   NovelChapterDTO,
   UpdateNovelChapterDTO,
 } from 'src/modules/novel_chapter/dto/index';
+import { isEmpty } from 'class-validator';
 
 export class NovelChapterMapper {
   static dtoToEntity(dto: NovelChapterDTO): NovelChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         chapter: dto.chapter,
@@ -25,7 +26,7 @@ export class NovelChapterMapper {
 
   static dtoListToEntity(dto: NovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.dtoToEntity(chapter));
       });
@@ -35,7 +36,7 @@ export class NovelChapterMapper {
   }
 
   static entityToDTO(entity: NovelChapter): NovelChapterDTO {
-    if (entity) {
+    if (!isEmpty(entity)) {
       return {
         id: entity._id,
         chapter: entity.chapter,
@@ -53,7 +54,7 @@ export class NovelChapterMapper {
 
   static entityListToDTO(entity: NovelChapter[]): NovelChapterDTO[] {
     const dtos: NovelChapterDTO[] = [];
-    if (entity) {
+    if (entity.length > 0) {
       entity.forEach((story) => {
         dtos.push(NovelChapterMapper.entityToDTO(story));
       });
@@ -62,7 +63,7 @@ export class NovelChapterMapper {
   }
 
   static createDtoToEntity(dto: CreateNovelChapterDTO): NovelChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         chapter: dto.chapter,
         context: dto.context,
@@ -77,7 +78,7 @@ export class NovelChapterMapper {
 
   static createDtoListToEntity(dto: CreateNovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.createDtoToEntity(chapter));
       });
@@ -87,7 +88,7 @@ export class NovelChapterMapper {
   }
 
   static updateDtoToEntity(dto: UpdateNovelChapterDTO): NovelChapter {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         _id: dto.id,
         chapter: dto.chapter,
@@ -103,7 +104,7 @@ export class NovelChapterMapper {
 
   static updateDtoListToEntity(dto: UpdateNovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.updateDtoToEntity(chapter));
       });
@@ -113,7 +114,7 @@ export class NovelChapterMapper {
   }
 
   static dtoToUpdate(dto: NovelChapterDTO): UpdateNovelChapterDTO {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return {
         id: dto.id,
         chapter: dto.chapter,
@@ -129,7 +130,7 @@ export class NovelChapterMapper {
 
   static dtoListToUpdate(dto: NovelChapterDTO[]): UpdateNovelChapterDTO[] {
     const novelChapters: UpdateNovelChapterDTO[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.dtoToUpdate(chapter));
       });
@@ -139,7 +140,7 @@ export class NovelChapterMapper {
   }
 
   static dtoIdToString(dto: NovelChapterDTO): string {
-    if (dto) {
+    if (!isEmpty(dto)) {
       return dto.id;
     }
     return null;
@@ -147,7 +148,7 @@ export class NovelChapterMapper {
 
   static dtoIdListToString(dto: NovelChapterDTO[]): string[] {
     const id: string[] = [];
-    if (dto) {
+    if (dto.length > 0) {
       dto.forEach((chapter) => {
         id.push(NovelChapterMapper.dtoIdToString(chapter));
       });
