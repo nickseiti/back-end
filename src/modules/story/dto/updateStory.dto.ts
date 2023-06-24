@@ -20,3 +20,5 @@ export class UpdateStoryDTO {
   @ApiProperty({ required: false, type: UpdateComicDTO })
   comic?: UpdateComicDTO;
 }
+
+export type UpdateChildDTO = UpdateNovelDTO | UpdateComicDTO;

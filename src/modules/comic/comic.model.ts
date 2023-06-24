@@ -31,7 +31,7 @@ export class Comic {
   @Prop({ required: true, type: Number })
   views: number;
 
-  @Prop({ required: true, type: Boolean })
+  @Prop({ required: true, type: Boolean, default: false })
   complete: boolean;
 
   @Prop({ type: Date })

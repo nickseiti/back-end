@@ -3,9 +3,14 @@ import { StoryRepository } from './story.repository';
 import { ComicMapper, NovelMapper, StoryMapper } from 'src/common/mappers';
 import { NovelService } from '../novel/novel.service';
 import { ComicService } from '../comic/comic.service';
-import { CreateStoryDTO, UpdateStoryDTO, StoryDTO } from './dto/index';
-import { UpdateComicDTO } from '../comic/dto/index';
-import { UpdateNovelDTO } from '../novel/dto/index';
+import {
+  CreateStoryDTO,
+  UpdateStoryDTO,
+  StoryDTO,
+  UpdateChildDTO,
+} from './dto/index';
+import { isEmpty } from 'class-validator';
+import * as lodash from 'lodash';
 
 @Injectable()
 export class StoryService {
@@ -35,37 +40,54 @@ export class StoryService {
     const storyDTO: StoryDTO = StoryMapper.entityToDTO(
       await this.storyRepository.update(
         id,
-        StoryMapper.updateDtoToEntity(data, data.novel, data.comic),
+        StoryMapper.updateDtoToEntity(data),
       ),
     );
 
-    if (data.novel) {
-      // eslint-disable-next-line prefer-const
-      let novel: UpdateNovelDTO = NovelMapper.dtoToUpdateDto(
-        await this.novelService.findById(data.novel.id),
+    if (!isEmpty(data.novel)) {
+      data.novel.storyName = data.name;
+      storyDTO.novel = await this.checkToUpdateChildren(
+        data.novel,
+        this.novelService,
+        NovelMapper,
       );
-      novel.storyName = data.name;
-      storyDTO.novel = await this.novelService.update(data.novel.id, novel);
     }
-    if (data.comic) {
-      // eslint-disable-next-line prefer-const
-      let comic: UpdateComicDTO = ComicMapper.dtoToUpdateDto(
-        await this.comicService.findById(data.comic.id),
+    if (!isEmpty(data.comic)) {
+      data.comic.storyName = data.name;
+      storyDTO.comic = await this.checkToUpdateChildren(
+        data.comic,
+        this.comicService,
+        ComicMapper,
       );
-      comic.storyName = data.name;
-      storyDTO.comic = await this.comicService.update(data.comic.id, comic);
     }
     return storyDTO;
   }
 
   async delete(id: string): Promise<StoryDTO | null> {
     const storyDTO: StoryDTO = await this.findById(id);
-    if (storyDTO.novel) {
+    if (!isEmpty(storyDTO.novel)) {
       this.novelService.delete(storyDTO.novel.id);
     }
-    if (storyDTO.comic) {
+    if (!isEmpty(storyDTO.comic)) {
       this.comicService.delete(storyDTO.comic.id);
     }
     return StoryMapper.entityToDTO(await this.storyRepository.delete(id));
+  }
+
+  async checkToUpdateChildren(
+    newUpdateDtoChild: UpdateChildDTO,
+    service: any,
+    storyChildMapper: any,
+  ): Promise<any> {
+    const oldUpdateDtoChild: UpdateChildDTO = storyChildMapper.dtoToUpdateDto(
+      await service.findById(newUpdateDtoChild.id),
+    );
+    if (!lodash.isEqual(newUpdateDtoChild, oldUpdateDtoChild)) {
+      return await this.novelService.update(
+        oldUpdateDtoChild.id,
+        newUpdateDtoChild,
+      );
+    }
+    return storyChildMapper.updateDtoToDto(newUpdateDtoChild);
   }
 }

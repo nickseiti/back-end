@@ -26,7 +26,7 @@ export class NovelChapterMapper {
 
   static dtoListToEntity(dto: NovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.dtoToEntity(chapter));
       });
@@ -54,7 +54,7 @@ export class NovelChapterMapper {
 
   static entityListToDTO(entity: NovelChapter[]): NovelChapterDTO[] {
     const dtos: NovelChapterDTO[] = [];
-    if (entity.length > 0) {
+    if (!isEmpty(entity)) {
       entity.forEach((story) => {
         dtos.push(NovelChapterMapper.entityToDTO(story));
       });
@@ -78,7 +78,7 @@ export class NovelChapterMapper {
 
   static createDtoListToEntity(dto: CreateNovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.createDtoToEntity(chapter));
       });
@@ -104,7 +104,7 @@ export class NovelChapterMapper {
 
   static updateDtoListToEntity(dto: UpdateNovelChapterDTO[]): NovelChapter[] {
     const novelChapters: NovelChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.updateDtoToEntity(chapter));
       });
@@ -130,7 +130,7 @@ export class NovelChapterMapper {
 
   static dtoListToUpdate(dto: NovelChapterDTO[]): UpdateNovelChapterDTO[] {
     const novelChapters: UpdateNovelChapterDTO[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         novelChapters.push(NovelChapterMapper.dtoToUpdate(chapter));
       });
@@ -148,12 +148,38 @@ export class NovelChapterMapper {
 
   static dtoIdListToString(dto: NovelChapterDTO[]): string[] {
     const id: string[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         id.push(NovelChapterMapper.dtoIdToString(chapter));
       });
     }
 
     return id;
+  }
+
+  static updateDtoToDto(dto: UpdateNovelChapterDTO): NovelChapterDTO {
+    if (!isEmpty(dto)) {
+      return {
+        id: dto.id,
+        chapter: dto.chapter,
+        context: dto.context,
+        novelId: dto.novelId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static updateDtoListToDto(dto: UpdateNovelChapterDTO[]): NovelChapterDTO[] {
+    const novelChapterDTO: NovelChapterDTO[] = [];
+    if (!isEmpty(dto)) {
+      dto.forEach((chapter) => {
+        novelChapterDTO.push(NovelChapterMapper.updateDtoToDto(chapter));
+      });
+    }
+
+    return novelChapterDTO;
   }
 }

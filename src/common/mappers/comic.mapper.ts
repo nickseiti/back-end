@@ -26,7 +26,7 @@ export class ComicMapper {
 
   static dtoListToEntity(dtos: ComicDTO[]): Comic[] {
     const entitys: Comic[] = [];
-    if (dtos.length > 0) {
+    if (!isEmpty(dtos)) {
       dtos.forEach((dto) => {
         entitys.push(ComicMapper.dtoToEntity(dto));
       });
@@ -53,7 +53,7 @@ export class ComicMapper {
 
   static entityListToDTO(entity: Comic[]): ComicDTO[] {
     const dtos: ComicDTO[] = [];
-    if (entity.length > 0) {
+    if (!isEmpty(entity)) {
       entity.forEach((story) => {
         dtos.push(ComicMapper.entityToDTO(story));
       });
@@ -76,7 +76,7 @@ export class ComicMapper {
 
   static createDtoListToEntity(dtos: CreateComicDTO[]): Comic[] {
     const entitys: Comic[] = [];
-    if (dtos.length > 0) {
+    if (!isEmpty(dtos)) {
       dtos.forEach((dto) => {
         entitys.push(ComicMapper.createDtoToEntity(dto));
       });
@@ -107,6 +107,20 @@ export class ComicMapper {
         storyId: dto.storyId,
         views: dto.views,
         chapters: ComicChapterMapper.dtoListToUpdate(dto.chapters),
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static updateDtoToDto(dto: UpdateComicDTO): ComicDTO {
+    if (!isEmpty(dto)) {
+      return {
+        id: dto.id,
+        complete: dto.complete,
+        storyId: dto.storyId,
+        views: dto.views,
+        chapters: ComicChapterMapper.updateDtoListToDto(dto.chapters),
         storyName: dto.storyName,
       };
     }

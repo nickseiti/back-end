@@ -26,7 +26,7 @@ export class ComicChapterMapper {
 
   static dtoListToEntity(dto: ComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.dtoToEntity(chapter));
       });
@@ -54,7 +54,7 @@ export class ComicChapterMapper {
 
   static entityListToDTO(entity: ComicChapter[]): ComicChapterDTO[] {
     const dtos: ComicChapterDTO[] = [];
-    if (entity.length > 0) {
+    if (!isEmpty(entity)) {
       entity.forEach((story) => {
         dtos.push(ComicChapterMapper.entityToDTO(story));
       });
@@ -79,7 +79,7 @@ export class ComicChapterMapper {
 
   static createDtoListToEntity(dto: CreateComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.createDtoToEntity(chapter));
       });
@@ -105,7 +105,7 @@ export class ComicChapterMapper {
 
   static updateDtoListToEntity(dto: UpdateComicChapterDTO[]): ComicChapter[] {
     const ComicChapters: ComicChapter[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.updateDtoToEntity(chapter));
       });
@@ -131,7 +131,7 @@ export class ComicChapterMapper {
 
   static dtoListToUpdate(dto: ComicChapterDTO[]): UpdateComicChapterDTO[] {
     const ComicChapters: UpdateComicChapterDTO[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         ComicChapters.push(ComicChapterMapper.dtoToUpdate(chapter));
       });
@@ -149,12 +149,38 @@ export class ComicChapterMapper {
 
   static dtoIdListToString(dto: ComicChapterDTO[]): string[] {
     const id: string[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((chapter) => {
         id.push(ComicChapterMapper.dtoIdToString(chapter));
       });
     }
 
     return id;
+  }
+
+  static updateDtoToDto(dto: UpdateComicChapterDTO): ComicChapterDTO {
+    if (!isEmpty(dto)) {
+      return {
+        id: dto.id,
+        chapter: dto.chapter,
+        images: dto.images,
+        comicId: dto.comicId,
+        title: dto.title,
+        views: dto.views,
+        storyName: dto.storyName,
+      };
+    }
+    return null;
+  }
+
+  static updateDtoListToDto(dto: UpdateComicChapterDTO[]): ComicChapterDTO[] {
+    const comicChapterDTO: ComicChapterDTO[] = [];
+    if (!isEmpty(dto)) {
+      dto.forEach((chapter) => {
+        comicChapterDTO.push(ComicChapterMapper.updateDtoToDto(chapter));
+      });
+    }
+
+    return comicChapterDTO;
   }
 }

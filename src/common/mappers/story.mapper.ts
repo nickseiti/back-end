@@ -25,7 +25,7 @@ export class StoryMapper {
 
   static dtoListToEntity(dto: StoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((story) => {
         storys.push(StoryMapper.dtoToEntity(story));
       });
@@ -50,7 +50,7 @@ export class StoryMapper {
 
   static entityListToDTO(entity: Story[]): StoryDTO[] {
     const dtos: StoryDTO[] = [];
-    if (entity.length > 0) {
+    if (!isEmpty(entity)) {
       entity.forEach((story) => {
         dtos.push(StoryMapper.entityToDTO(story));
       });
@@ -70,7 +70,7 @@ export class StoryMapper {
 
   static createDtoListToEntity(dto: CreateStoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((story) => {
         storys.push(StoryMapper.createDtoToEntity(story));
       });
@@ -113,7 +113,7 @@ export class StoryMapper {
 
   static updateDtoListToEntity(dto: UpdateStoryDTO[]): Story[] {
     const storys: Story[] = [];
-    if (dto.length > 0) {
+    if (!isEmpty(dto)) {
       dto.forEach((story) => {
         storys.push(StoryMapper.createDtoToEntity(story));
       });
